@@ -1,6 +1,6 @@
 # Text Contrast Benchmark
 
-A single self-contained page with **68 text-contrast test cases** across 8 sections —
+A single self-contained page with **80 text-contrast test cases** across 9 sections —
 every case a WCAG contrast solution should aim to resolve.
 
 **Live page:** https://shresthjain-bs.github.io/text-contrast-benchmark/
@@ -17,6 +17,7 @@ every case a WCAG contrast solution should aim to resolve.
 | F — Overlays | transparent/opaque × fully/partially covering, backdrop-filter blur, modal dim, mix-blend-mode |
 | G — Real-world edge cases | tiny 10px text, single characters, clipped glyphs, pills, empty crops, white-on-white, monospace codes |
 | H — Kitchen-sink combos | gradient-on-gradient, multi-color text on photo, opacity + scrim + image |
+| I — Multi-line paragraphs | 3–6 line wrapped text: per-line BG variation (vertical gradients, photos, section boundaries), links buried mid-paragraph, inline highlights, band/banner overlays covering only some lines, dense 12px legal text, drop caps |
 
 ## Ground truth
 

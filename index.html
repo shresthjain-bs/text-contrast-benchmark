@@ -359,6 +359,62 @@ Manifest: <code>window.TC_MANIFEST</code>.</p>
   <p class="fs14" style="color:#1c1c1c">Please review <a href="#" style="color:#cfc3a1">the linked policy</a> before you continue.</p></div></div>
 </div>
 
+<!-- ============================================================ -->
+<h2>I — Multi-line long paragraphs</h2>
+<p class="sect-desc">The same issue families, but on wrapped 3–6 line paragraphs — per-LINE background variation, links buried mid-paragraph, overlays covering only some lines, paragraphs crossing section boundaries. Production crops are frequently multi-line.</p>
+<div class="grid">
+
+<div class="case"><div class="meta"><b>I01</b> long paragraph, good contrast (control) · <span class="expect-PASS">PASS</span></div>
+<div class="target" id="I01" data-expect="PASS" data-ratio="6.90" data-cat="paragraph" data-note="5-line control; FG estimate must pool consistently across lines">
+  <p class="fs14" style="color:#5a5a5a;line-height:1.5">Our coffee subscription delivers freshly roasted beans to your door every two weeks. Choose from more than twenty-five single-origin varieties, adjust your grind preference at any time, and pause or cancel whenever you like. Every order includes free shipping and a satisfaction guarantee covering your first three deliveries.</p></div></div>
+
+<div class="case"><div class="meta"><b>I02</b> long paragraph, borderline 4.54:1 · <span class="expect-PASS">PASS</span> (REVIEW acceptable)</div>
+<div class="target" id="I02" data-expect="PASS" data-ratio="4.54" data-cat="paragraph" data-note="borderline ratio sustained over many lines of small text">
+  <p class="fs14" style="color:#767676;line-height:1.5">Our coffee subscription delivers freshly roasted beans to your door every two weeks. Choose from more than twenty-five single-origin varieties, adjust your grind preference at any time, and pause or cancel whenever you like. Every order includes free shipping and a satisfaction guarantee covering your first three deliveries.</p></div></div>
+
+<div class="case"><div class="meta"><b>I03</b> paragraph over VERTICAL gradient · <span class="expect-FAIL">FAIL</span></div>
+<div class="target" id="I03" data-expect="FAIL" data-ratio="1.92" data-cat="paragraph" data-note="white text: first lines on #222 PASS (15.9), last lines on #bbb FAIL (1.92) — per-line local BG" style="background:linear-gradient(180deg,#222222,#bbbbbb)">
+  <p class="fs14" style="color:#ffffff;line-height:1.5">The first lines of this paragraph sit on a dark background where white text is perfectly readable. As the gradient lightens line by line, the same white text gradually loses contrast until the final lines become nearly impossible to read against the pale background at the bottom of the block.</p></div></div>
+
+<div class="case"><div class="meta"><b>I04</b> failing link buried mid-paragraph · <span class="expect-FAIL">FAIL</span></div>
+<div class="target" id="I04" data-expect="FAIL" data-ratio="1.63" data-cat="paragraph" data-note="prod pattern at paragraph scale: one pale link on the 3rd line; everything else passes">
+  <p class="fs14" style="color:#1c1c1c;line-height:1.5">You are connected to the Chile website and prices are shown in local currency. Delivery is available to all mainland regions within five business days of placing your order. If you would like to receive your delivery in another country instead, please visit <a href="#" style="color:#e6c789">the international delivery portal</a> and select your destination from the list of supported regions before checking out.</p></div></div>
+
+<div class="case"><div class="meta"><b>I05</b> inline highlights change local BG · <span class="expect-FAIL">FAIL</span></div>
+<div class="target" id="I05" data-expect="FAIL" data-ratio="1.22" data-cat="paragraph" data-note="search-highlight marks: dark-on-yellow words PASS (13.96) but the white-on-yellow span FAILS (1.22)">
+  <p class="fs14" style="color:#1c1c1c;line-height:1.6">Search results for <mark style="background:#ffeb3b;color:#1c1c1c">coffee machines</mark> returned 38 items across four categories. The most popular match this month was the compact espresso series, while <mark style="background:#ffeb3b;color:#ffffff">limited edition</mark> models continue to sell out within hours of being restocked in the online store.</p></div></div>
+
+<div class="case"><div class="meta"><b>I06</b> paragraph over photo, no scrim · <span class="expect-REVIEW">REVIEW</span></div>
+<div class="target" id="I06" data-expect="REVIEW" data-ratio="" data-cat="paragraph" data-note="each line crosses different photo regions — bright leaf pixels fail, dark pass; prod koffie case at full paragraph scale" style="background:var(--photo);background-size:cover">
+  <p class="fs14" style="color:#ffffff;line-height:1.5">Ontdek welke koffie bij jou past, want het hele assortiment bestaat uit meer dan vijfentwintig koffies. Gebruik de filters om jouw koffies te vinden of doe de koffie keuze test om persoonlijke aanbevelingen te ontvangen op basis van jouw smaakvoorkeuren en favoriete bereidingswijze.</p></div></div>
+
+<div class="case"><div class="meta"><b>I07</b> faded paragraph (nested opacity) · <span class="expect-FAIL">FAIL</span></div>
+<div class="target" id="I07" data-expect="FAIL" data-ratio="3.74" data-cat="paragraph" data-note="declared #000 (21.0) but .8×.6 opacity renders #858585 = 3.74 across every line">
+  <div style="opacity:.8"><div style="opacity:.6"><p class="fs14" style="color:#000000;line-height:1.5">This entire paragraph inherits two layers of ancestor opacity, so although the declared colour is pure black with maximum contrast, every line the user actually sees is a washed-out grey that falls well below the required threshold for normal body text at this size.</p></div></div></div></div>
+
+<div class="case"><div class="meta"><b>I08</b> band overlay over MIDDLE lines · <span class="expect-REVIEW">REVIEW</span></div>
+<div class="target" id="I08" data-expect="REVIEW" data-ratio="" data-cat="paragraph" data-note="semi-transparent band washes out lines 2–3 only; first and last lines stay readable">
+  <p class="fs14" style="color:#1c1c1c;line-height:1.5">The first line of this paragraph is completely clear and easy to read. The middle lines, however, sit beneath a translucent band that washes them out and drags their contrast far below the threshold. By the time you reach the final line the veil has ended and the text is once again perfectly readable.</p>
+  <div style="position:absolute;left:0;right:0;top:38%;height:36%;background:rgba(255,255,255,.7)"></div></div></div>
+
+<div class="case"><div class="meta"><b>I09</b> opaque banner covering LAST lines · <span class="expect-REVIEW">REVIEW</span></div>
+<div class="target" id="I09" data-expect="REVIEW" data-ratio="" data-cat="paragraph" data-note="cookie-banner pattern: bottom lines fully hidden behind an opaque bar; visible lines PASS">
+  <p class="fs14" style="color:#1c1c1c;line-height:1.5">Important account information appears at the start of this notice and remains fully visible to every reader. Unfortunately the final sentences, which contain the actual cancellation deadline and the refund instructions, are completely hidden behind the cookie consent banner overlapping the bottom of this text block.</p>
+  <div style="position:absolute;left:0;right:0;bottom:0;height:34%;background:#263238;color:#eceff1;font-size:12px;display:flex;align-items:center;padding:0 14px">We use cookies to improve your experience. <b style="margin-left:6px">Accept</b></div></div></div>
+
+<div class="case"><div class="meta"><b>I10</b> dense 12px paragraph, tight leading · <span class="expect-PASS">PASS</span> (REVIEW acceptable)</div>
+<div class="target" id="I10" data-expect="PASS" data-ratio="7.00" data-font-px="12" data-cat="paragraph" data-note="prod-dominant regime: 12px multi-line, line-height 1.25 — adjacent ascenders/descenders pollute local BG sampling">
+  <p class="fs12" style="color:#595959;line-height:1.25">These terms and conditions govern your use of the service and constitute a binding agreement between you and the provider. By accessing or using any part of the service you agree to be bound by these terms, including the limitation of liability, the arbitration clause, the automatic renewal provisions, and the data processing addendum referenced in section twelve of this agreement.</p></div></div>
+
+<div class="case"><div class="meta"><b>I11</b> drop cap + multi-color spans across lines · <span class="expect-REVIEW">REVIEW</span></div>
+<div class="target" id="I11" data-expect="REVIEW" data-ratio="3.45" data-cat="paragraph" data-note="oversized red drop cap (5.62 PASS as large text), body #1c1c1c PASS, but the #8a8a8a aside on line 3 is 3.45 FAIL">
+  <p class="fs14" style="color:#1c1c1c;line-height:1.5"><span style="float:left;font-size:42px;line-height:.85;font-weight:700;color:#c62828;padding-right:6px">O</span>nce upon a time the editorial team decided that every article should open with an ornamental drop capital in the brand colour. The body text remained dark and readable, <span style="color:#8a8a8a">though the parenthetical asides were set in a lighter grey that never quite met the contrast requirement,</span> and nobody noticed for years.</p></div></div>
+
+<div class="case"><div class="meta"><b>I12</b> paragraph crossing a section boundary · <span class="expect-FAIL">FAIL</span></div>
+<div class="target" id="I12" data-expect="FAIL" data-ratio="1.00" data-cat="paragraph" data-note="white text: top half on navy hero PASS (11.65), bottom half on white body INVISIBLE (1.00)" style="background:linear-gradient(180deg,#173a5e 0 52%,#ffffff 52% 100%)">
+  <p class="fs14" style="color:#ffffff;line-height:1.5">This hero headline begins on the dark navy banner where white text has excellent contrast and looks deliberate and polished. But the paragraph is longer than the banner itself, so its final lines spill past the section boundary onto the white page body where they vanish completely from view.</p></div></div>
+</div>
+
 <script>
 // Machine-readable manifest of all cases
 window.TC_MANIFEST = [...document.querySelectorAll('.target[id]')].map(el => {
