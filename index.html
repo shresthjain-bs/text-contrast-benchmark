@@ -457,6 +457,39 @@ Manifest: <code>window.TC_MANIFEST</code>.</p>
   <p class="fs14" style="color:#ffffff;font-weight:600;display:inline-block;white-space:nowrap;animation:j-marquee 6s ease-in-out infinite">Breaking: sliding ticker text</p></div></div>
 </div>
 
+<!-- ============================================================ -->
+<h2>K — Text inside iframes</h2>
+<p class="sect-desc">Text rendered in a nested browsing context. DOM-based extraction must walk into <code>contentDocument</code> (same-origin) — and is <b>completely blind</b> for opaque-origin frames (here created with <code>sandbox</code>, no external hosting needed). Pixels don't care about document boundaries; the DOM does.</p>
+<div class="grid">
+
+<div class="case"><div class="meta"><b>K01</b> same-origin iframe, failing text inside · <span class="expect-FAIL">FAIL</span></div>
+<div class="target" id="K01" data-expect="FAIL" data-ratio="2.10" data-cat="iframe" data-note="srcdoc frame; #b3b3b3 on white inside. Reachable via contentDocument but invisible to querySelector on the top document" style="padding:0">
+  <iframe style="border:0;display:block;width:100%;height:64px" title="K01 frame"
+    srcdoc="&lt;body style='margin:0;padding:16px 18px;background:#ffffff;font-family:-apple-system,Arial'&gt;&lt;p style='margin:0;font-size:14px;color:#b3b3b3'&gt;Low-contrast text living inside an embedded frame&lt;/p&gt;&lt;/body&gt;"></iframe></div></div>
+
+<div class="case"><div class="meta"><b>K02</b> OPAQUE-ORIGIN (sandboxed) iframe · <span class="expect-PASS">PASS</span></div>
+<div class="target" id="K02" data-expect="PASS" data-ratio="12.6" data-cat="iframe" data-note="sandbox without allow-same-origin → contentDocument is null from the parent; only pixels can judge this text. Good contrast inside — must still answer PASS, not error. CAPTURE GOTCHA: opaque-origin frames are out-of-process (OOPIF) in Chrome and may render BLANK with captureBeyondViewport when offscreen — scroll into view before screenshotting" style="padding:0">
+  <iframe sandbox="" style="border:0;display:block;width:100%;height:64px" title="K02 frame"
+    srcdoc="&lt;body style='margin:0;padding:16px 18px;background:#ffffff;font-family:-apple-system,Arial'&gt;&lt;p style='margin:0;font-size:14px;color:#111111'&gt;Readable text the parent DOM cannot reach&lt;/p&gt;&lt;/body&gt;"></iframe></div></div>
+
+<div class="case"><div class="meta"><b>K03</b> transparent iframe over parent background · <span class="expect-PASS">PASS</span></div>
+<div class="target" id="K03" data-expect="PASS" data-ratio="13.4" data-cat="iframe" data-note="frame body is transparent — the BG under the glyphs belongs to the PARENT document (#1d2b3a). Compositing crosses the document boundary" style="padding:0;background:#1d2b3a">
+  <iframe style="border:0;display:block;width:100%;height:64px;background:transparent" allowtransparency="true" title="K03 frame"
+    srcdoc="&lt;body style='margin:0;padding:16px 18px;background:transparent;font-family:-apple-system,Arial'&gt;&lt;p style='margin:0;font-size:14px;color:#ffffff'&gt;White frame text backed by the parent page colour&lt;/p&gt;&lt;/body&gt;"></iframe></div></div>
+
+<div class="case"><div class="meta"><b>K04</b> scaled-down iframe (embed preview) · <span class="expect-REVIEW">REVIEW</span></div>
+<div class="target" id="K04" data-expect="REVIEW" data-ratio="3.03" data-cat="iframe" data-note="content declares 26px text (large-text 3:1 would PASS at 3.03) but transform:scale(.5) renders it ~13px — which threshold applies? Plus AA from downscaling" style="padding:0;overflow:hidden;height:64px">
+  <div style="transform:scale(.5);transform-origin:0 0;width:200%">
+  <iframe style="border:0;display:block;width:100%;height:128px" title="K04 frame"
+    srcdoc="&lt;body style='margin:0;padding:32px 36px;background:#ffffff;font-family:-apple-system,Arial'&gt;&lt;p style='margin:0;font-size:26px;color:#949494'&gt;Preview thumbnail of an embedded article headline&lt;/p&gt;&lt;/body&gt;"></iframe></div></div></div>
+
+<div class="case"><div class="meta"><b>K05</b> parent overlay covering iframe text · <span class="expect-REVIEW">REVIEW</span></div>
+<div class="target" id="K05" data-expect="REVIEW" data-ratio="" data-cat="iframe" data-note="overlay lives in the PARENT document, text in the CHILD — no single DOM tree sees both; right half of the frame text is veiled" style="padding:0">
+  <iframe style="border:0;display:block;width:100%;height:64px" title="K05 frame"
+    srcdoc="&lt;body style='margin:0;padding:16px 18px;background:#ffffff;font-family:-apple-system,Arial'&gt;&lt;p style='margin:0;font-size:14px;color:#1c1c1c'&gt;This embedded sentence is half clear and half veiled by its parent&lt;/p&gt;&lt;/body&gt;"></iframe>
+  <div style="position:absolute;top:0;bottom:0;right:0;width:45%;background:rgba(255,255,255,.75)"></div></div></div>
+</div>
+
 <script>
 // J05: feed the <video> from an animated canvas (self-contained, no video file)
 (function () {

@@ -1,6 +1,6 @@
 # Text Contrast Benchmark
 
-A single self-contained page with **87 text-contrast test cases** across 10 sections —
+A single self-contained page with **92 text-contrast test cases** across 11 sections —
 every case a WCAG contrast solution should aim to resolve.
 
 **Live page:** https://shresthjain-bs.github.io/text-contrast-benchmark/
@@ -19,6 +19,7 @@ every case a WCAG contrast solution should aim to resolve.
 | H — Kitchen-sink combos | gradient-on-gradient, multi-color text on photo, opacity + scrim + image |
 | I — Multi-line paragraphs | 3–6 line wrapped text: per-line BG variation (vertical gradients, photos, section boundaries), links buried mid-paragraph, inline highlights, band/banner overlays covering only some lines, dense 12px legal text, drop caps |
 | J — Motion backgrounds | text over animated GIFs (inline data URIs), an autoplaying `<video>` (canvas captureStream — no external file), CSS background animations, shimmer skeletons, and marquee text crossing a split background |
+| K — Text inside iframes | same-origin `srcdoc` frames, opaque-origin (`sandbox`) frames the parent DOM cannot reach, transparent frames composited over the parent background, scaled-down embed previews, parent overlays covering child-frame text |
 
 ## Ground truth
 
