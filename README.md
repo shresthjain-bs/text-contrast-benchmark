@@ -1,6 +1,6 @@
 # Text Contrast Benchmark
 
-A single self-contained page with **80 text-contrast test cases** across 9 sections —
+A single self-contained page with **87 text-contrast test cases** across 10 sections —
 every case a WCAG contrast solution should aim to resolve.
 
 **Live page:** https://shresthjain-bs.github.io/text-contrast-benchmark/
@@ -18,6 +18,7 @@ every case a WCAG contrast solution should aim to resolve.
 | G — Real-world edge cases | tiny 10px text, single characters, clipped glyphs, pills, empty crops, white-on-white, monospace codes |
 | H — Kitchen-sink combos | gradient-on-gradient, multi-color text on photo, opacity + scrim + image |
 | I — Multi-line paragraphs | 3–6 line wrapped text: per-line BG variation (vertical gradients, photos, section boundaries), links buried mid-paragraph, inline highlights, band/banner overlays covering only some lines, dense 12px legal text, drop caps |
+| J — Motion backgrounds | text over animated GIFs (inline data URIs), an autoplaying `<video>` (canvas captureStream — no external file), CSS background animations, shimmer skeletons, and marquee text crossing a split background |
 
 ## Ground truth
 
@@ -34,8 +35,13 @@ DevTools to export it.
 
 ## Design notes
 
-- **No external assets** — all "photos" are inline SVG data URIs, so the page renders
-  identically in every browser and headless capture stack.
+- **No external assets** — "photos" are inline SVG data URIs, animated GIFs are inline
+  base64, and the video is generated at runtime via `canvas.captureStream()`, so the page
+  renders identically in every browser and headless capture stack.
+- **Motion cases (section J) are time-dependent by design** — a screenshot's verdict
+  depends on when the frame is sampled. Append `?freeze` to the URL to pause CSS
+  animations and the video for deterministic capture (GIFs keep playing — real capture
+  pipelines must handle that too).
 - Labels live **outside** the croppable targets, so per-element screenshots contain
   only the test content.
 - Thresholds follow WCAG 2.1 AA: 4.5:1 normal text, 3:1 for ≥24px text.
